@@ -13,12 +13,6 @@
 + (NSString*)workingDirectoryRootInCache;
 + (NSString*)workingDirectoryRootInTemporary;
 
-+ (BOOL)canUpdateResource:(NSString*)path;
-+ (BOOL)canPreviewStringsAsXib:(NSString*)path;
-+ (BOOL)isBaseXibFile:(NSString*)path;
-+ (NSString*)baseXibFileForLocalizedFile:(NSString*)path;
-+ (NSArray*)localizedFilesForBaseXibFile:(NSString*)path;
-
 @end
 
 IMP Replace_MethodImp_WithFunc(Class aClass, SEL origSel, const void* repFunc);

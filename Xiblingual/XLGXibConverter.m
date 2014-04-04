@@ -43,7 +43,7 @@ static void XLGXibConverterEventsCallback(
             ((flags) & (kFSEventStreamEventFlagItemFinderInfoMod))!=0,
             eventPath);
 */
-        if ([eventPath hasSuffix:@".xib"]){
+        if ([eventPath hasSuffix:@".xib"]||[eventPath hasSuffix:@".storyboard"]){
             [watcher previewXibUpdated:eventPath];
         }
 	}
@@ -102,7 +102,8 @@ static void XLGXibConverterEventsCallback(
     
     // merge string to new-xib
     // ibtool --import-strings-file stringsFile --write new.xib baseXibFile
-    NSString* tmpXibFile=[tmpDir stringByAppendingPathComponent:@"new.xib"];
+    NSString* tmpXibName=[@"new" stringByAppendingPathExtension:[baseXibFile pathExtension]];
+    NSString* tmpXibFile=[tmpDir stringByAppendingPathComponent:tmpXibName];
     args=@[@"--import-strings-file", stringsFile, @"--write", tmpXibFile, baseXibFile];
     task=[NSTask launchedTaskWithLaunchPath:[XLGXibConverter ibtoolPath] arguments:args];
     [task waitUntilExit];
@@ -147,7 +148,8 @@ static void XLGXibConverterEventsCallback(
     [task waitUntilExit];
     
     // merge string to baseXibFile
-    NSString* tmpXibFile=[tmpDir stringByAppendingPathComponent:@"new.xib"];
+    NSString* tmpXibName=[@"new" stringByAppendingPathExtension:[baseXibFile pathExtension]];
+    NSString* tmpXibFile=[tmpDir stringByAppendingPathComponent:tmpXibName];
     args=@[@"--import-strings-file", tmpStringsFileUTF16, @"--write", tmpXibFile, baseXibFile];
     task=[NSTask launchedTaskWithLaunchPath:[XLGXibConverter ibtoolPath] arguments:args];
     [task waitUntilExit];
@@ -160,7 +162,7 @@ static void XLGXibConverterEventsCallback(
     }
     if (!replaced) {
         NSAlert *alert = [[NSAlert alloc]init];
-        [alert setMessageText:@"Error: Couldn't update xib file."];
+        [alert setMessageText:@"Error: Couldn't update layout file."];
         [alert runModal];
     }
     
@@ -194,7 +196,7 @@ static void XLGXibConverterEventsCallback(
         [[NSWorkspace sharedWorkspace]openFile:tmpXibFile withApplication:@"Xcode"];
     }else{
         NSAlert *alert = [[NSAlert alloc]init];
-        [alert setMessageText:@"Error: Couldn't generate xib file."];
+        [alert setMessageText:@"Error: Couldn't generate layout file."];
         [alert runModal];
     }
 }

@@ -44,7 +44,7 @@ static void XLG_menuNeedsUpdate(id self, SEL _cmd, id menu)
         [subItem setRepresentedObject:nil];
         subItem=[subMenu itemWithTag:kIDEStructureNavigatorMenuItemPreviewAsXib];
         [subItem setTarget:nil];
-        [subItem setTitle:@"Preview as xib"];
+        [subItem setTitle:@"Preview Layout"];
         [subItem setRepresentedObject:nil];
         return subMenu;
     }
@@ -60,7 +60,7 @@ static void XLG_menuNeedsUpdate(id self, SEL _cmd, id menu)
     
     [subMenu addItem:[NSMenuItem separatorItem]];
 
-    subItem=[subMenu addItemWithTitle:@"Preview as xib" action:@selector(XLGContextMenu_PreviewAsXib:) keyEquivalent:@""];
+    subItem=[subMenu addItemWithTitle:@"Preview Layout" action:@selector(XLGContextMenu_PreviewAsXib:) keyEquivalent:@""];
     [subItem setTag:kIDEStructureNavigatorMenuItemPreviewAsXib];
     
     [menu addItem:[NSMenuItem separatorItem]];
@@ -92,26 +92,26 @@ static void XLG_menuNeedsUpdate(id self, SEL _cmd, id menu)
         }
     }
     if (selectedFilePath) {
+        XLGResourceFile* res=[[XLGResourceFile alloc]initWithFilePath:selectedFilePath];
         
-        if ([XLGXiblingual canUpdateResource:selectedFilePath]) {
+        if ([res canUpdateResource]) {
             NSMenuItem* subItem=[myMenu itemWithTag:kIDEStructureNavigatorMenuItemUpdateStrings];
             [subItem setTarget:self];
             NSString* title;
             
-            if ([XLGXiblingual isBaseXibFile:selectedFilePath]) {
+            if ([res isBaseXibFile]) {
                 title=[NSString stringWithFormat:@"Update All Localized %@", [[selectedFilePath lastPathComponent]stringByDeletingPathExtension]];
             }else{
-                NSString* lang=[[[selectedFilePath stringByDeletingLastPathComponent]lastPathComponent]stringByDeletingPathExtension];
-                title=[NSString stringWithFormat:@"Update %@ (%@)", [selectedFilePath lastPathComponent], lang];
+                title=[NSString stringWithFormat:@"Update %@ (%@)", [selectedFilePath lastPathComponent], res.language];
             }
             [subItem setTitle:title];
-            [subItem setRepresentedObject:selectedFilePath];
+            [subItem setRepresentedObject:res];
         }
-        if ([XLGXiblingual canPreviewStringsAsXib:selectedFilePath]) {
+        if ([res canPreviewStringsAsXib]) {
             NSMenuItem* subItem=[myMenu itemWithTag:kIDEStructureNavigatorMenuItemPreviewAsXib];
             [subItem setTarget:self];
-            [subItem setTitle:@"Preview as xib"];
-            [subItem setRepresentedObject:selectedFilePath];
+            [subItem setTitle:@"Preview Layout"];
+            [subItem setRepresentedObject:res];
         }
     }
 
@@ -120,18 +120,18 @@ static void XLG_menuNeedsUpdate(id self, SEL _cmd, id menu)
 
 - (void)XLGContextMenu_updateResouces:(id)sender
 {
-    NSString* path=[sender representedObject];
+    XLGResourceFile* res=[sender representedObject];
     NSString* baseXibFile;
     NSArray* resourceFiles=nil;
-    if ([XLGXiblingual isBaseXibFile:path]) { //base xib
+    if ([res isBaseXibFile]) { //base xib
         
-        baseXibFile=path;
-        resourceFiles=[XLGXiblingual localizedFilesForBaseXibFile:path];
+        baseXibFile=res.path;
+        resourceFiles=[res localizedFilesForBaseXibFile];
         
     }else{ //strings or xib
         
-        baseXibFile=[XLGXiblingual baseXibFileForLocalizedFile:path];
-        resourceFiles=@[path];
+        baseXibFile=[res baseXibFileForLocalizedFile];
+        resourceFiles=@[res.path];
     }
     
     for (NSString* resourceFile in resourceFiles) {
@@ -139,7 +139,7 @@ static void XLG_menuNeedsUpdate(id self, SEL _cmd, id menu)
         NSString* ext=[resourceFile pathExtension];
         if ([ext isEqualToString:@"strings"]) {
             [XLGXibConverter updateStringsFile:resourceFile withBaseXibFile:baseXibFile];
-        }else if ([ext isEqualToString:@"xib"]){
+        }else{ // xib or storyboard
             [XLGXibConverter updateXibFile:resourceFile withBaseXibFile:baseXibFile];
         }
     }
@@ -148,11 +148,11 @@ static void XLG_menuNeedsUpdate(id self, SEL _cmd, id menu)
 - (void)XLGContextMenu_PreviewAsXib:(id)sender
 {
 
-    NSString* stringsFile=[sender representedObject];
+    XLGResourceFile* res=[sender representedObject];
     
-    if ([[stringsFile pathExtension]isEqualToString:@"strings"]) {
-        NSString* baseXibFile=[XLGXiblingual baseXibFileForLocalizedFile:stringsFile];
-        [XLGXibConverter previewAsXibStringsFile:stringsFile withBaseXibFile:baseXibFile];
+    if ([res isLikeStrings]) {
+        NSString* baseXibFile=[res baseXibFileForLocalizedFile];
+        [XLGXibConverter previewAsXibStringsFile:res.path withBaseXibFile:baseXibFile];
     }
 }
 

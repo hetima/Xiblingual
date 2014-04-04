@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA0CBD2718EE4D6C00C2BA66 /* XLGResourceFile.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0CBD2618EE4D6C00C2BA66 /* XLGResourceFile.m */; };
 		AA6D333418EBE4F9007B032E /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA6D333318EBE4F9007B032E /* AppKit.framework */; };
 		AA6D333618EBE4F9007B032E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA6D333518EBE4F9007B032E /* Foundation.framework */; };
 		AA6D333C18EBE4F9007B032E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA6D333A18EBE4F9007B032E /* InfoPlist.strings */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA0CBD2518EE4D6C00C2BA66 /* XLGResourceFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLGResourceFile.h; sourceTree = "<group>"; };
+		AA0CBD2618EE4D6C00C2BA66 /* XLGResourceFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLGResourceFile.m; sourceTree = "<group>"; };
 		AA6D333018EBE4F9007B032E /* Xiblingual.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Xiblingual.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA6D333318EBE4F9007B032E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		AA6D333518EBE4F9007B032E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -79,6 +82,8 @@
 				AAC4F57D18EC012F0084AEFE /* XLGContextMenuManager.m */,
 				AADB2AB318EC2C200035DB7B /* XLGXibConverter.h */,
 				AADB2AB418EC2C200035DB7B /* XLGXibConverter.m */,
+				AA0CBD2518EE4D6C00C2BA66 /* XLGResourceFile.h */,
+				AA0CBD2618EE4D6C00C2BA66 /* XLGResourceFile.m */,
 			);
 			path = Xiblingual;
 			sourceTree = "<group>";
@@ -159,6 +164,7 @@
 				AAC4F57E18EC012F0084AEFE /* XLGContextMenuManager.m in Sources */,
 				AA6D333F18EBE4F9007B032E /* XLGXiblingual.m in Sources */,
 				AADB2AB518EC2C200035DB7B /* XLGXibConverter.m in Sources */,
+				AA0CBD2718EE4D6C00C2BA66 /* XLGResourceFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

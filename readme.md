@@ -1,10 +1,10 @@
 # Xiblingual
 
-Xiblingual is plugin for Xcode 5.1 which helps localizing xib.
+Xiblingual is plugin for Xcode 5.1 which helps localizing xib/storyboard.
 
-Xiblingual adds item to context menu on Project Navigator.It works when base xib or localized xib/strings is selected.
+Xiblingual adds item to context menu on Project Navigator.It works when base xib/storyboard or localized xib/storyboard/strings is selected.
 
-Primary xib file must be located in `Base.lproj`.
+Primary xib/storyboard file must be located in `Base.lproj`.
 
 ##Features
 
@@ -14,8 +14,8 @@ Re-generate localized file from base xib. It keeps localized contents. Both xib 
 ![01.gif](http://hetima.com/xiblingual/01.gif)
 
 
-###Preview as xib
-When localized strings is selected, you can preview as xib file. Editing and saving this xib updates strings file automatically.
+###Preview Layout
+When localized strings is selected, you can preview layout as xib/storyboard. Editing and saving this xib/storyboard updates strings file automatically.
 
 ![02.gif](http://hetima.com/xiblingual/02.gif)
 
