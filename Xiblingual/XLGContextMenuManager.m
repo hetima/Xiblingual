@@ -11,23 +11,22 @@
 
 @implementation XLGContextMenuManager
 
-static void (*orig_XLG_menuNeedsUpdate)(id, SEL, ...);
-static void XLG_menuNeedsUpdate(id self, SEL _cmd, id menu)
-{
-    orig_XLG_menuNeedsUpdate(self, _cmd, menu);
-    [[XLGContextMenuManager si]IDEStructureNavigatorMenuNeedsUpdate:menu];
-}
-
-
 +(instancetype)si
 {
     static id sharedContextMenuManager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedContextMenuManager = [[self alloc]init];
-        orig_XLG_menuNeedsUpdate = (void (*)(id, SEL, ...))RMF(
-               NSClassFromString(@"IDEStructureNavigator"),
-               NSSelectorFromString(@"menuNeedsUpdate:"), XLG_menuNeedsUpdate);
+        
+        KZRMETHOD_SWIZZLING_WITHBLOCK
+        (
+         "IDEStructureNavigator",
+         "menuNeedsUpdate:",
+         KZRMethodInspection, call, sel,
+         ^ (id slf, id menu){
+             call.as_void(slf, sel, menu);
+             [sharedContextMenuManager IDEStructureNavigatorMenuNeedsUpdate:menu];
+         });
     });
     return sharedContextMenuManager;
 }
