@@ -1,6 +1,7 @@
 # Xiblingual
 
 Xiblingual is plugin for Xcode 5.1 which helps localizing xib/storyboard.
+It seems work with 6.1 but not tested enough.
 
 Xiblingual adds item to context menu on Project Navigator.It works when base xib/storyboard or localized xib/storyboard/strings is selected.
 
